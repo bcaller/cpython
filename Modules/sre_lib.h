@@ -219,98 +219,131 @@ SRE(count)(SRE_STATE* state, const SRE_CODE* pattern, Py_ssize_t maxcount)
     case SRE_OP_IN:
         /* repeated set */
         TRACE(("|%p|%p|COUNT IN\n", pattern, ptr));
-        while (ptr < end && SRE(charset)(state, pattern + 2, *ptr))
+        while (ptr < end && SRE(charset)(state, pattern + 2, *ptr)){
             ptr++;
+            TRACE(("[%.9000s]", ptr));
+            TRACE(("\n"));
+        }
         break;
 
     case SRE_OP_ANY:
         /* repeated dot wildcard. */
         TRACE(("|%p|%p|COUNT ANY\n", pattern, ptr));
-        while (ptr < end && !SRE_IS_LINEBREAK(*ptr))
+        while (ptr < end && !SRE_IS_LINEBREAK(*ptr)){
             ptr++;
+            TRACE(("[%.9000s]", ptr));
+            TRACE(("\n"));
+        }
         break;
 
     case SRE_OP_ANY_ALL:
         /* repeated dot wildcard.  skip to the end of the target
            string, and backtrack from there */
-        TRACE(("|%p|%p|COUNT ANY_ALL\n", pattern, ptr));
+        TRACE(("|%p|%p|COUNT ANY_ALL\n", pattern, ptr));{
         ptr = end;
+            TRACE(("[%.9000s]", ptr));
+            TRACE(("\n"));
+        }
         break;
 
     case SRE_OP_LITERAL:
         /* repeated literal */
         chr = pattern[1];
-        TRACE(("|%p|%p|COUNT LITERAL %d\n", pattern, ptr, chr));
+        TRACE(("|%p|%p|COUNT LITERAL %d %c\n", pattern, ptr, chr, chr));
         c = (SRE_CHAR) chr;
 #if SIZEOF_SRE_CHAR < 4
         if ((SRE_CODE) c != chr)
             ; /* literal can't match: doesn't fit in char width */
         else
 #endif
-        while (ptr < end && *ptr == c)
+        while (ptr < end && *ptr == c){
             ptr++;
+            TRACE(("[%.9000s]", ptr));
+            TRACE(("\n"));
+        }
         break;
 
     case SRE_OP_LITERAL_IGNORE:
         /* repeated literal */
         chr = pattern[1];
-        TRACE(("|%p|%p|COUNT LITERAL_IGNORE %d\n", pattern, ptr, chr));
-        while (ptr < end && (SRE_CODE) sre_lower_ascii(*ptr) == chr)
+        TRACE(("|%p|%p|COUNT LITERAL_IGNORE %d %c\n", pattern, ptr, chr, chr));
+        while (ptr < end && (SRE_CODE) sre_lower_ascii(*ptr) == chr){
             ptr++;
+            TRACE(("[%.9000s]", ptr));
+            TRACE(("\n"));
+        }
         break;
 
     case SRE_OP_LITERAL_UNI_IGNORE:
         /* repeated literal */
         chr = pattern[1];
-        TRACE(("|%p|%p|COUNT LITERAL_UNI_IGNORE %d\n", pattern, ptr, chr));
-        while (ptr < end && (SRE_CODE) sre_lower_unicode(*ptr) == chr)
+        TRACE(("|%p|%p|COUNT LITERAL_UNI_IGNORE %d %c\n", pattern, ptr, chr, chr));
+        while (ptr < end && (SRE_CODE) sre_lower_unicode(*ptr) == chr){
             ptr++;
+            TRACE(("[%.9000s]", ptr));
+            TRACE(("\n"));
+        }
         break;
 
     case SRE_OP_LITERAL_LOC_IGNORE:
         /* repeated literal */
         chr = pattern[1];
-        TRACE(("|%p|%p|COUNT LITERAL_LOC_IGNORE %d\n", pattern, ptr, chr));
-        while (ptr < end && char_loc_ignore(chr, *ptr))
+        TRACE(("|%p|%p|COUNT LITERAL_LOC_IGNORE %d %c\n", pattern, ptr, chr, chr));
+        while (ptr < end && char_loc_ignore(chr, *ptr)){
             ptr++;
+            TRACE(("[%.9000s]", ptr));
+            TRACE(("\n"));
+        }
         break;
 
     case SRE_OP_NOT_LITERAL:
         /* repeated non-literal */
         chr = pattern[1];
-        TRACE(("|%p|%p|COUNT NOT_LITERAL %d\n", pattern, ptr, chr));
+        TRACE(("|%p|%p|COUNT NOT_LITERAL %d %c\n", pattern, ptr, chr, chr));
         c = (SRE_CHAR) chr;
 #if SIZEOF_SRE_CHAR < 4
         if ((SRE_CODE) c != chr)
             ptr = end; /* literal can't match: doesn't fit in char width */
         else
 #endif
-        while (ptr < end && *ptr != c)
+        while (ptr < end && *ptr != c){
             ptr++;
+            TRACE(("[%.9000s]", ptr));
+            TRACE(("\n"));
+        }
         break;
 
     case SRE_OP_NOT_LITERAL_IGNORE:
         /* repeated non-literal */
         chr = pattern[1];
-        TRACE(("|%p|%p|COUNT NOT_LITERAL_IGNORE %d\n", pattern, ptr, chr));
-        while (ptr < end && (SRE_CODE) sre_lower_ascii(*ptr) != chr)
+        TRACE(("|%p|%p|COUNT NOT_LITERAL_IGNORE %d %c\n", pattern, ptr, chr, chr));
+        while (ptr < end && (SRE_CODE) sre_lower_ascii(*ptr) != chr){
             ptr++;
+            TRACE(("[%.9000s]", ptr));
+            TRACE(("\n"));
+        }
         break;
 
     case SRE_OP_NOT_LITERAL_UNI_IGNORE:
         /* repeated non-literal */
         chr = pattern[1];
-        TRACE(("|%p|%p|COUNT NOT_LITERAL_UNI_IGNORE %d\n", pattern, ptr, chr));
-        while (ptr < end && (SRE_CODE) sre_lower_unicode(*ptr) != chr)
+        TRACE(("|%p|%p|COUNT NOT_LITERAL_UNI_IGNORE %d %c\n", pattern, ptr, chr, chr));
+        while (ptr < end && (SRE_CODE) sre_lower_unicode(*ptr) != chr){
             ptr++;
+            TRACE(("[%.9000s]", ptr));
+            TRACE(("\n"));
+        }
         break;
 
     case SRE_OP_NOT_LITERAL_LOC_IGNORE:
         /* repeated non-literal */
         chr = pattern[1];
-        TRACE(("|%p|%p|COUNT NOT_LITERAL_LOC_IGNORE %d\n", pattern, ptr, chr));
-        while (ptr < end && !char_loc_ignore(chr, *ptr))
+        TRACE(("|%p|%p|COUNT NOT_LITERAL_LOC_IGNORE %d %c\n", pattern, ptr, chr, chr));
+        while (ptr < end && !char_loc_ignore(chr, *ptr)){
             ptr++;
+            TRACE(("[%.9000s]", ptr));
+            TRACE(("\n"));
+        }
         break;
 
     default:
@@ -568,6 +601,7 @@ SRE(match)(SRE_STATE* state, const SRE_CODE* pattern, int toplevel)
 entrance:
 
     ctx->ptr = (SRE_CHAR *)state->ptr;
+    SRE_CHAR* initialptr = (SRE_CHAR *)state->ptr;
 
     if (ctx->pattern[0] == SRE_OP_INFO) {
         /* optimization info block */
@@ -585,6 +619,8 @@ entrance:
         if ((0 == (sigcount & 0xfff)) && PyErr_CheckSignals())
             RETURN_ERROR(SRE_ERROR_INTERRUPTED);
 
+        TRACE(("> [%.9000s]", ctx->ptr));
+        TRACE(("\n"));
         switch (*ctx->pattern++) {
 
         case SRE_OP_MARK:
@@ -612,8 +648,8 @@ entrance:
         case SRE_OP_LITERAL:
             /* match literal string */
             /* <LITERAL> <code> */
-            TRACE(("|%p|%p|LITERAL %d\n", ctx->pattern,
-                   ctx->ptr, *ctx->pattern));
+            TRACE(("|%p|%p|LITERAL %d %c\n", ctx->pattern,
+                   ctx->ptr, *ctx->pattern, *ctx->pattern));
             if (ctx->ptr >= end || (SRE_CODE) ctx->ptr[0] != ctx->pattern[0])
                 RETURN_FAILURE;
             ctx->pattern++;
@@ -623,8 +659,8 @@ entrance:
         case SRE_OP_NOT_LITERAL:
             /* match anything that is not literal character */
             /* <NOT_LITERAL> <code> */
-            TRACE(("|%p|%p|NOT_LITERAL %d\n", ctx->pattern,
-                   ctx->ptr, *ctx->pattern));
+            TRACE(("|%p|%p|NOT_LITERAL %d %c\n", ctx->pattern,
+                   ctx->ptr, *ctx->pattern, *ctx->pattern));
             if (ctx->ptr >= end || (SRE_CODE) ctx->ptr[0] == ctx->pattern[0])
                 RETURN_FAILURE;
             ctx->pattern++;
@@ -852,6 +888,8 @@ entrance:
                matches, and ctx->ptr points to the tail of the target
                string.  check if the rest of the pattern matches,
                and backtrack if not. */
+            TRACE((">%d> [%.9000s]", ctx->count, ctx->ptr));
+            TRACE(("\n"));
 
             if (ctx->count < (Py_ssize_t) ctx->pattern[1])
                 RETURN_FAILURE;
@@ -872,10 +910,14 @@ entrance:
                    the rest of the pattern cannot possibly match */
                 ctx->u.chr = ctx->pattern[ctx->pattern[0]+1];
                 for (;;) {
+                    TRACE((">%d> [%.9000s]", ctx->count, ctx->ptr));
+                    TRACE(("\n"));
                     while (ctx->count >= (Py_ssize_t) ctx->pattern[1] &&
                            (ctx->ptr >= end || *ctx->ptr != ctx->u.chr)) {
                         ctx->ptr--;
                         ctx->count--;
+                        TRACE(("<%d< [%.9000s]", ctx->count, ctx->ptr));
+                        TRACE(("\n"));
                     }
                     if (ctx->count < (Py_ssize_t) ctx->pattern[1])
                         break;
@@ -905,9 +947,13 @@ entrance:
                     }
                     ctx->ptr--;
                     ctx->count--;
+                    TRACE(("<%d< [%.9000s]", ctx->count, ctx->ptr));
+                    TRACE(("\n"));
                     LASTMARK_RESTORE();
                 }
             }
+            TRACE((">%d> [%.9000s]", ctx->count, ctx->ptr));
+            TRACE(("\n"));
             RETURN_FAILURE;
 
         case SRE_OP_MIN_REPEAT_ONE:
@@ -943,6 +989,9 @@ entrance:
                 ctx->ptr += ctx->count;
             }
 
+            TRACE((">%d> [%.9000s]", ctx->count, ctx->ptr));
+            TRACE(("\n"));
+
             if (ctx->pattern[ctx->pattern[0]] == SRE_OP_SUCCESS &&
                 !(ctx->toplevel &&
                   ((state->match_all && ctx->ptr != state->end) ||
@@ -973,6 +1022,8 @@ entrance:
                     assert(ret == 1);
                     ctx->ptr++;
                     ctx->count++;
+                    TRACE((">%d> [%.9000s]", ctx->count, ctx->ptr));
+                    TRACE(("\n"));
                     LASTMARK_RESTORE();
                 }
             }
@@ -1157,6 +1208,8 @@ entrance:
                             RETURN_FAILURE;
                         p++;
                         ctx->ptr++;
+                        TRACE((">%d> [%.9000s]", ctx->count, ctx->ptr));
+                        TRACE(("\n"));
                     }
                 }
             }
@@ -1183,6 +1236,8 @@ entrance:
                             RETURN_FAILURE;
                         p++;
                         ctx->ptr++;
+                        TRACE((">%d> [%.9000s]", ctx->count, ctx->ptr));
+                        TRACE(("\n"));
                     }
                 }
             }
@@ -1209,6 +1264,8 @@ entrance:
                             RETURN_FAILURE;
                         p++;
                         ctx->ptr++;
+                        TRACE((">%d> [%.9000s]", ctx->count, ctx->ptr));
+                        TRACE(("\n"));
                     }
                 }
             }
@@ -1235,6 +1292,8 @@ entrance:
                             RETURN_FAILURE;
                         p++;
                         ctx->ptr++;
+                        TRACE((">%d> [%.9000s]", ctx->count, ctx->ptr));
+                        TRACE(("\n"));
                     }
                 }
             }

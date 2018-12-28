@@ -58,7 +58,7 @@ static const char copyright[] =
 #define SRE_PY_MODULE "re"
 
 /* defining this one enables tracing */
-#undef VERBOSE
+#define VERBOSE 1
 
 /* -------------------------------------------------------------------- */
 
@@ -1488,7 +1488,7 @@ _sre_compile_impl(PyObject *module, PyObject *pattern, int flags,
 */
 
 /* Defining this one enables tracing of the validator */
-#undef VVERBOSE
+#define VVERBOSE
 
 /* Trace macro for the validator */
 #if defined(VVERBOSE)
